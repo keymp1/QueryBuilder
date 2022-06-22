@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QueryBuilder
 {
-    public class QueryBuilder : IDisposable
+    public class QueryBuilder: IDisposable
     {
         private SqliteConnection connection;
         
@@ -15,6 +15,13 @@ namespace QueryBuilder
             string dbFilePath = @"Data Source=C:\Users\keymp\OneDrive\Documents\ServerSide\Labs\Lab5\QueryBuilder\Data\data.db";
 
             QueryBuilder qb = new QueryBuilder(dbFilePath);
+
+            using (qb)
+            {
+                
+            }
+
+
 
             
 
@@ -152,9 +159,49 @@ namespace QueryBuilder
 
         }
 
+        public void Update<T>(T obj)
+        {
+            // gets properties of objects generically
+            PropertyInfo[] properties = typeof(T).GetProperties();
+
+            //get values of properties
+            var values = new List<string>();
+            var columns = new List<string>();
+            PropertyInfo property;
+
+            StringBuilder sbValues = new StringBuilder();
+            StringBuilder sbColumns = new StringBuilder();
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (i == values.Count - 1)
+                {
+                    sbValues.Append($"{values[i]}");
+                    sbColumns.Append($"{columns[i]}");
+                }
+                else
+                {
+                    sbValues.Append($"{values[i]}, ");
+                    sbColumns.Append($"{columns[i]}, ");
+                }
+            }
+
+            var command = connection.CreateCommand();
+
+            //optional steps for increased speed
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
+
+            command.CommandText = $"UPDATE {typeof(T).Name} SET ({sbColumns}) = Values ({sbValues})";
+            command.ExecuteNonQuery();
+
+        }
+
         public void Delete<T>(int id) where T : IClassModel
         {
-            
+            var command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM {typeof(T)} WHERE ID = {id};";
+            command.ExecuteNonQuery();
         }
     }
 }
