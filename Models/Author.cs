@@ -11,7 +11,7 @@ namespace QueryBuilder.Models
         public int ID { get; init; }
         public string FirstName { get; init; } = String.Empty;
         public string Surname { get; init; } = String.Empty;
-        
+
         //no arg constructor for reading from DB
         public Author() { }
         public Author(int iD, string firstName, string surname)
@@ -23,12 +23,12 @@ namespace QueryBuilder.Models
 
         public override string ToString()
         {
-            return 
+            return
                 $"ID: \t\t{ID} \n" +
                 $"First Name: \t\t{FirstName} \n" +
                 $"Last Name: \t\t{Surname} \n";
         }
 
-        public 
+
     }
 }

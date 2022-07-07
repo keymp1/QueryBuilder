@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QueryBuilder.Models
 {
-    internal class BooksCatagorey: 
+    internal class BooksCatagorey 
     {
         public int BookID { get; init; }
         public int CatagoreyID { get; init; }

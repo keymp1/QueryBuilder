@@ -18,7 +18,13 @@ namespace QueryBuilder
 
             using (qb)
             {
-                
+                Author a = new Author(99, "Maxwell", "Key");
+                //qb.Create<Author>(a);
+
+                Console.WriteLine(qb.Read<Author>(99));
+
+                qb.Delete<Author>(99);
+
             }
 
 
@@ -200,7 +206,7 @@ namespace QueryBuilder
         public void Delete<T>(int id) where T : IClassModel
         {
             var command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM {typeof(T)} WHERE ID = {id};";
+            command.CommandText = $"DELETE FROM {typeof(T).Name} WHERE ID = {id};";
             command.ExecuteNonQuery();
         }
     }
